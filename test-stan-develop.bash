@@ -22,3 +22,4 @@ echo '------------------------------------------------------------'
 
 qsub /u/9/d/dl2604/yeti-scripts/qsub-stan-develop-libstanc.sh
 qsub /u/9/d/dl2604/yeti-scripts/qsub-stan-develop-libstan.sh
+qsub /u/9/d/dl2604/yeti-scripts/qsub-stan-develop-generate-tests.sh
