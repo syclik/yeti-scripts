@@ -3,7 +3,7 @@
 : ${ID='develop'}
 
 # Directives
-#PBS -N $ID-stan-libstan
+#PBS -N ${ID}-stan-libstan
 #PBS -W group_list=yetistats
 #PBS -l nodes=1,walltime=00:02:00,mem=1gb
 #PBS -M dl2604@columbia.edu
