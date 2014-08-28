@@ -20,6 +20,16 @@ echo ''
 
 echo '------------------------------------------------------------'
 
-qsub /u/9/d/dl2604/yeti-scripts/qsub-libstanc.sh
-qsub /u/9/d/dl2604/yeti-scripts/qsub-libstan.sh
-qsub /u/9/d/dl2604/yeti-scripts/qsub-generate-tests.sh
+qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-libstanc.sh
+qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-libstan.sh
+qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-generate-tests.sh
+
+targets=($(find src/test -name '*_test.cpp' | sed 's|src/\(.*\)_test.cpp|\1|'))
+
+for (( n = 0; n < ${#targets[@]}; n++ )) do
+    echo ' create individual qsub job for: ' ${targets[$n]}
+done
+    
+    echo ${#targets[@]}
+    
+##qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-compile-and-run-test.sh
