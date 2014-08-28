@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # Directives
-#PBS -N stan-develop-setup
+#PBS -N stan-develop-libstan
 #PBS -W group_list=yetistats
-#PBS -l nodes=1,walltime=00:20:00,mem=2gb
+#PBS -l nodes=1,walltime=00:02:00,mem=1gb
 #PBS -M dl2604@columbia.edu
 #PBS -m abe
 #PBS -V
@@ -16,7 +16,6 @@
 echo '------------------------------------------------------------'
 echo 'Building libs'
 
-time make CC=clang++ bin/libstanc.a 
 time make CC=clang++ bin/libstan.a
 
 echo ''
