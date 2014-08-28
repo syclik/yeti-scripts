@@ -27,9 +27,10 @@ job_libstan=$(qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-libstan.sh)
 ## generate all tests
 job_generate_tests=$(qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-generate-tests.sh)
 
+sleep 10
 ## wait until all tests are done
 ## (use checkjob to see if the job still exists)
-while [ $(checkjob ${job_generate_tests}) -eq 0 ]; do
+while [ "$(checkjob ${job_generate_tests})" -eq 0 ]; do
     sleep 1
 done
 

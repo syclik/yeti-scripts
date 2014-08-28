@@ -3,7 +3,7 @@
 : {$ID='develop'}
 
 # Directives
-#PBS -N ${ID}-stan-generate-tests
+#PBS -N $ID-stan-generate-tests
 #PBS -W group_list=yetistats
 #PBS -l nodes=1,walltime=00:01:00,mem=1gb
 #PBS -M dl2604@columbia.edu
