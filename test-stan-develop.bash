@@ -31,7 +31,7 @@ qstat -f ${job_generate_tests}
 ## wait until all tests are done
 ## (use qstat -f to see if the job still exists)
 while [ $? -eq 0 ]; do
-    sleep 1
+    sleep 10
     qstat -f ${job_generate_tests}
 done
 
