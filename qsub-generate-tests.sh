@@ -16,9 +16,11 @@
 echo '------------------------------------------------------------'
 echo 'Generating all tests'
 
-##time make CC=clang++ bin/libstan.a
-echo 'need to figure this out' 
+time make CC=clang++ test/unit-distribution/generate_tests
+
+targets=$(find src/test/unit-distribution -name '*_test.hpp' | sed 's|\(.*\)_test.hpp|\1_00000_generated_test.cpp|')
+make CC=clang++ ${targets}
 
 echo ''
-echo 'Done building libs'
+echo 'Done building all generated test files'
 
