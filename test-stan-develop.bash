@@ -20,16 +20,26 @@ echo ''
 
 echo '------------------------------------------------------------'
 
-qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-libstanc.sh
-qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-libstan.sh
-qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-generate-tests.sh
+## create libstanc
+job_libstanc=$(qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-libstanc.sh)
+## create libstan
+job_libstan=$(qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-libstan.sh)
+## generate all tests
+job_generate_tests=$(qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-generate-tests.sh)
 
+## wait until all tests are done
+## (use checkjob to see if the job still exists)
+while [ $(checkjob ${job_generate_tests}) -eq 0 ]; do
+    sleep 1
+done
+
+## generate all test targets
 targets=($(find src/test -name '*_test.cpp' | sed 's|src/\(.*\)_test.cpp|\1|'))
 
-for (( n = 0; n < ${#targets[@]}; n++ )) do
-    echo ' create individual qsub job for: ' ${targets[$n]}
+## loop over each test and queue up a target
+##for (( n = 0; n < ${#targets[@]}; n++ )) do
+for (( n = 0; n < 5; n++ )) do
+  qsub -v ID=develop,TARGET=${targets[$n]} -W depend=afterok:${job_libstanc} -W depend=afterok:${job_libstan} /u/9/d/dl2604/yeti-scripts/qsub-compile-and-run-test.sh
 done
-    
-    echo ${#targets[@]}
-    
+
 ##qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-compile-and-run-test.sh

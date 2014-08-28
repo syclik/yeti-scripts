@@ -6,7 +6,7 @@
 # Directives
 #PBS -N ${ID}-stan-compile-and-run-test
 #PBS -W group_list=yetistats
-#PBS -l nodes=1,walltime=00:02:00,mem=1gb
+#PBS -l nodes=1,walltime=00:01:00,mem=1gb
 #PBS -M dl2604@columbia.edu
 #PBS -m abe
 #PBS -V
