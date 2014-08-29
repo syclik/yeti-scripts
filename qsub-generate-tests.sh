@@ -21,6 +21,8 @@ echo 'Generating all tests'
 time make CC=clang++ test/unit-distribution/generate_tests
 
 targets=$(find src/test/unit-distribution -name '*_test.hpp' | sed 's|\(.*\)_test.hpp|\1_00000_generated_test.cpp|')
+
+echo 'targets: ' ${targets}
 for target in ${targets} 
 do
     make CC=clang++ ${target}
