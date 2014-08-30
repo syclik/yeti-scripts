@@ -18,4 +18,5 @@
 
 ## Run a target
 echo 'target is: ' ${targets[$PBS_ARRAY_INDEX]}
-time make CC=clang++ ${targets[$PBS_ARRAY_INDEX]}
+echo 'number: ' $PBS_ARRAY_INDEX
+##time make CC=clang++ ${targets[$PBS_ARRAY_INDEX]}
