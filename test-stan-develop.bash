@@ -60,5 +60,8 @@ targets=($(find src/test -name '*_test.cpp' | sed 's|src/\(.*\)_test.cpp|\1|'))
 
 
 #### run as an array
-#qsub -v ID=develop,targets=${targets} -t 0-${#targets[@]} /u/9/d/dl2604/yeti-scripts/qsub-array-compile-and-run-tests.sh
-qsub -v ID=develop,targets=${targets} -t 0-10 /u/9/d/dl2604/yeti-scripts/qsub-array-compile-and-run-tests.sh
+qsub -v ID=develop,targets=${targets} -t 0-${#targets[@]} /u/9/d/dl2604/yeti-scripts/qsub-array-compile-and-run-tests.sh
+
+echo 'the job for tests is: ' ${job_run_tests}
+
+qsub -v ID=develop -W depend=afteranyarray:${job_run_tests} /u/9/d/dl2604/yeti-scripts/qsub-notify.sh
