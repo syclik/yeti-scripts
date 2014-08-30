@@ -24,6 +24,8 @@ echo '------------------------------------------------------------'
 job_libstanc=$(qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-libstanc.sh)
 ## create libstan
 job_libstan=$(qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-libstan.sh)
+## create 
+job_stanc=$(qsub -v ID=develop -W depend=afterok:${job_libstanc} /u/9/d/dl2604/yeti-scripts/qsub-stanc.sh)
 ## generate all tests
 job_generate_tests=$(qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-generate-tests.sh)
 
@@ -35,13 +37,28 @@ while [ $? -eq 0 ]; do
     qstat -f ${job_generate_tests}
 done
 
+echo 'all tests generated'
+
+while [ $(ls bin/*.a | wc -l) -ne 2 ]; do
+    echo 'waiting for libraries'
+    sleep 10
+done
+
+while [ $(ls test/test-models/stanc | wc -l) -ne 1 ]; do
+    echo 'waiting for stanc'
+    sleep 10
+done
+
 ## generate all test targets
 targets=($(find src/test -name '*_test.cpp' | sed 's|src/\(.*\)_test.cpp|\1|'))
 
-## loop over each test and queue up a target
-##for (( n = 0; n < ${#targets[@]}; n++ )) do
-for (( n = 0; n < 5; n++ )) do
-  qsub -v ID=develop,TARGET=${targets[$n]} -W depend=afterok:${job_libstanc} -W depend=afterok:${job_libstan} /u/9/d/dl2604/yeti-scripts/qsub-compile-and-run-test.sh
-done
 
-##qsub -v ID=develop /u/9/d/dl2604/yeti-scripts/qsub-compile-and-run-test.sh
+# ## loop over each test and queue up a target
+# for (( n = 0; n < ${#targets[@]}; n++ )) do
+#   qsub -v ID=develop,TARGET=${targets[$n]} /u/9/d/dl2604/yeti-scripts/qsub-compile-and-run-test.sh
+# done
+
+
+#### run as an array
+#qsub -v ID=develop,targets=${targets} -t 0-${#targets[@]} /u/9/d/dl2604/yeti-scripts/qsub-array-compile-and-run-tests.sh
+qsub -v ID=develop,targets=${targets} -t 0-10 /u/9/d/dl2604/yeti-scripts/qsub-array-compile-and-run-tests.sh
