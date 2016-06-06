@@ -1,9 +1,7 @@
 #!/bin/sh
 
-: ${ID='develop'}
-
 # Directives
-#PBS -N ${ID}-stan-stanc
+#PBS -N cmdstan-vuild
 #PBS -W group_list=yetistats
 #PBS -l nodes=1,walltime=00:04:00,mem=1gb
 #PBS -M dl2604@columbia.edu
