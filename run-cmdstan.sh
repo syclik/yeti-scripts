@@ -21,6 +21,6 @@ if [ ! -e ../cmdstan-$CMDSTAN_HASH ]; then
   git submodule update --init --recursive
   popd
 
-  qsub build-scripts/qsub-stanc.sh `pwd`../cmdstan-$CMDSTAN_HASH
+  qsub build-scripts/qsub-stanc.sh `pwd`/../cmdstan-$CMDSTAN_HASH
 fi
 
