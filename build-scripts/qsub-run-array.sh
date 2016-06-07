@@ -15,14 +15,11 @@
 #PBS -o localhost:/vega/stats/users/dl2604/
 #PBS -e localhost:/vega/stats/users/dl2604/
 
-STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)
-
-
 echo '------------------------------------------------------------'
 echo 'Running'
-echo $STAN_PROGRAM id=$PBS_ARRAYID $PROGRAM_ARGUMENTS output file=$STAN_PROGRAM_BASENAME-$PBS_ARRAYID.csv
+echo $STAN_PROGRAM id=$PBS_ARRAYID $PROGRAM_ARGUMENTS output file=$STAN_PROGRAM-$PBS_ARRAYID.csv
 
-$STAN_PROGRAM id=$PBS_ARRAYID $PROGRAM_ARGUMENTS output file=$STAN_PROGRAM_BASENAME-$PBS_ARRAYID.csv
+$STAN_PROGRAM id=$PBS_ARRAYID $PROGRAM_ARGUMENTS output file=$STAN_PROGRAM-$PBS_ARRAYID.csv
 
 echo 'Done running'
 
