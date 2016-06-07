@@ -6,7 +6,7 @@
 ##### STAN_PROGRAM_BASENAME=${basename $STAN_PROGRAM}
 
 # Directives
-#PBS -N ${ID}
+#PBS -N $ID
 #PBS -W group_list=yetistats
 #PBS -l nodes=1,walltime=01:00:00,mem=1gb
 #PBS -M dl2604@columbia.edu
