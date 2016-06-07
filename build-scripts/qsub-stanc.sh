@@ -19,7 +19,7 @@ echo 'Building stanc'
 
 cd $LOCATION
 echo currently at: `pwd`
-time make CC=clang++ build
+time make CC=clang++ -j4 build
 
 echo ''
 echo 'Done building stanc'

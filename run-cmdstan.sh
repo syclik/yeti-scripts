@@ -41,3 +41,7 @@ if [ ! -e $STAN_PROGRAM_FILENAME-$CMDSTAN_HASH ]; then
   fi
 fi
 
+
+
+## Run the Stan executable
+
