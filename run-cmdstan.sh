@@ -29,7 +29,7 @@ fi
 
 CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH
 if [ ! -e ../cmdstan-$CMDSTAN_HASH/bin/stanc ]; then
-  if [-z $job_clone_cmdstan ]; then
+  if [ -z $job_clone_cmdstan ]; then
     job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=$CMDSTAN_LOCATION)
   else
     job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=$CMDSTAN_LOCATION -W depend=afterok:$job_clone_cmdstan)
