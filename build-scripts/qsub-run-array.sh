@@ -20,9 +20,8 @@ STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)
 
 echo '------------------------------------------------------------'
 echo 'Running'
-echo pwd: `pwd`
-echo stan program basename: $STAN_PROGRAM_BASENAME
-echo time $STAN_PROGRAM id=$PBS_ARRAYID $PROGRAM_ARGUMENTS output file=$STAN_PROGRAM_BASENAME-$PBS_ARRAYID.csv
+
+$STAN_PROGRAM id=$PBS_ARRAYID $PROGRAM_ARGUMENTS output file=$STAN_PROGRAM_BASENAME-$PBS_ARRAYID.csv
 
 echo 'Done running'
 
