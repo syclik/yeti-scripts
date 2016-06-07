@@ -2,10 +2,7 @@
 
 : {$STAN_PROGRAM=''}
 : {$PROGRAM_ARGUMENTS=''}
-
-STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)
-
-
+: {$STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)}
 # Directives
 #PBS -N foo
 #PBS -W group_list=yetistats
@@ -17,6 +14,7 @@ STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)
 # Set output and error directories
 #PBS -o localhost:/vega/stats/users/dl2604/
 #PBS -e localhost:/vega/stats/users/dl2604/
+
 
 
 
