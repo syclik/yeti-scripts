@@ -22,21 +22,20 @@ if [ ! -e $STAN_PROGRAM ]; then
 fi
 
 if [ ! -e ../cmdstan-$CMDSTAN_HASH ]; then
-  git clone https://github.com/stan-dev/cmdstan ../cmdstan-$CMDSTAN_HASH
-  pushd ../cmdstan-$CMDSTAN_HASH
-  git submodule update --init --recursive
-  popd
+  job_clone_cmdstan=${qsub build-scripts/qsub-clone-cmdstan.sh -v CMDSTAN_HASH=$CMDSTAN_HASH}
+  echo Cloning CmdStan: $job_clone_cmdstan
 fi
-
 
 
 CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH
 if [ ! -e ../cmdstan-$CMDSTAN_HASH/bin/stanc ]; then
-  job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=$CMDSTAN_LOCATION)
+  if [-z $job_clone_cmdstan ]; then
+    job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=$CMDSTAN_LOCATION)
+  else
+    job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=$CMDSTAN_LOCATION -W depend=afterok:$job_clone_cmdstan)
+  fi
   echo Building CmdStan: $job_cmdstan_build
 fi
-
-
 
 ## Copy Stan program into one marked by the cmdstan hash
 STAN_PROGRAM_FILENAME="${STAN_PROGRAM%.*}"
