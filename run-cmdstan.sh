@@ -26,8 +26,11 @@ if [ ! -e ../cmdstan-$CMDSTAN_HASH ]; then
   popd
 fi
 
+
+
+CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH
 if [ ! -e ../cmdstan-$CMDSTAN_HASH/bin/stanc ]; then
-  job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH)
+  job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=$CMDSTAN_LOCATION)
   echo Building CmdStan: $job_cmdstan_build
 fi
 
@@ -40,11 +43,12 @@ if [ ! -e $STAN_PROGRAM_FILENAME-$CMDSTAN_HASH.stan ]; then
 fi
 
 ## Build the Stan program as an executable
+STAN_PROGRAM_LOCATION=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH
 if [ ! -e $STAN_PROGRAM_FILENAME-$CMDSTAN_HASH ]; then
   if [ -z $job_cmdstan_build ]; then
-    job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH,STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH)
+    job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=$CMDSTAN_LOCATION,STAN_PROGRAM=$STAN_PROGRAM_LOCATION)
   else
-    job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH,STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH -W depend=afterok:$job_cmdstan_build)
+    job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=$CMDSTAN_LOCATION,STAN_PROGRAM=$STAN_PROGRAM_LOCATION -W depend=afterok:$job_cmdstan_build)
   fi
   echo Building Stan program: $job_build
 fi
@@ -53,9 +57,9 @@ fi
 
 ## Run the Stan executable
 if [ -z $job_build ]; then
-  job_run=$(qsub -v STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -t 1-2 build-scripts/qsub-run-array.sh)
+  job_run=$(qsub -v STAN_PROGRAM=$STAN_PROGRAM_LOCATION,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -t 1-2 build-scripts/qsub-run-array.sh)
 else
-  job_run=$(qsub -v STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -W depend=afterok:$job_build -t 1-2 build-scripts/qsub-run-array.sh)
+  job_run=$(qsub -v STAN_PROGRAM=$STAN_PROGRAM_LOCATION,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -W depend=afterok:$job_build -t 1-2 build-scripts/qsub-run-array.sh)
 fi
 
 echo Running $STAN_PROGRAM: $job_run
