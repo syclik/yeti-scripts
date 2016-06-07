@@ -6,7 +6,7 @@
 # Directives
 #PBS -N build-stan-program
 #PBS -W group_list=yetistats
-#PBS -l nodes=1,walltime=00:04:00,mem=1gb
+#PBS -l nodes=1,walltime=00:01:00,mem=4gb
 #PBS -M dl2604@columbia.edu
 #PBS -m abe
 #PBS -V

@@ -21,9 +21,13 @@ if [ ! -e ../cmdstan-$CMDSTAN_HASH ]; then
   pushd ../cmdstan-$CMDSTAN_HASH
   git submodule update --init --recursive
   popd
-
-  job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH)
 fi
+
+if [ ! -e ../cmdstan-$CMDSTAN_HASH/bin/stanc ]; then
+  job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH)
+  echo Building CmdStan: $job_cmdstan_build
+fi
+
 
 
 ## Copy Stan program into one marked by the cmdstan hash
@@ -39,6 +43,7 @@ if [ ! -e $STAN_PROGRAM_FILENAME-$CMDSTAN_HASH ]; then
   else
     job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH,STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH -W depend=afterok:$job_cmdstan_build)
   fi
+  echo Building Stan program: $job_build
 fi
 
 
