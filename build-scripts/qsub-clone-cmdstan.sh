@@ -1,6 +1,7 @@
 #!/bin/sh
 
 : {$CMDSTAN_HASH=''}
+: {$PWD=''}
 
 # Directives
 #PBS -N clone-cmdstan-${CMDSTAN_HASH}
@@ -17,8 +18,8 @@
 echo '------------------------------------------------------------'
 echo 'Cloning CmdStan: '
 
-git clone https://github.com/stan-dev/cmdstan ../cmdstan-$CMDSTAN_HASH
-pushd ../cmdstan-$CMDSTAN_HASH
+git clone https://github.com/stan-dev/cmdstan $PWD/../cmdstan-$CMDSTAN_HASH
+pushd $PWD/../cmdstan-$CMDSTAN_HASH
 git checkout $CMDSTAN_HASH
 git submodule update --init --recursive
 popd

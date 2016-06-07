@@ -22,7 +22,7 @@ if [ ! -e $STAN_PROGRAM ]; then
 fi
 
 if [ ! -e ../cmdstan-$CMDSTAN_HASH ]; then
-  job_clone_cmdstan=$(qsub build-scripts/qsub-clone-cmdstan.sh -v CMDSTAN_HASH=$CMDSTAN_HASH)
+  job_clone_cmdstan=$(qsub build-scripts/qsub-clone-cmdstan.sh -v CMDSTAN_HASH=$CMDSTAN_HASH,PWD=`pwd`)
   echo Cloning CmdStan: $job_clone_cmdstan
 fi
 
