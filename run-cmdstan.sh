@@ -22,19 +22,18 @@ if [ ! -e $STAN_PROGRAM ]; then
 fi
 
 if [ ! -e ../cmdstan-$CMDSTAN_HASH ]; then
-  job_clone_cmdstan=$(qsub build-scripts/qsub-clone-cmdstan.sh -v CMDSTAN_HASH=$CMDSTAN_HASH,PWD=`pwd`)
-  echo Cloning CmdStan: $job_clone_cmdstan
+  git clone https://github.com/stan-dev/cmdstan ../cmdstan-$CMDSTAN_HASH
+  pushd ../cmdstan-$CMDSTAN_HASH
+  git checkout $CMDSTAN_HASH
+  git submodule update --init --recursive
+  popd
 fi
 
 
 CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH
 if [ ! -e ../cmdstan-$CMDSTAN_HASH/bin/stanc ]; then
-  if [ -z $job_clone_cmdstan ]; then
-    job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=$CMDSTAN_LOCATION)
-  else
-    job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=$CMDSTAN_LOCATION -W depend=afterok:$job_clone_cmdstan)
-  fi
-  echo Building CmdStan: $job_cmdstan_build
+  job_cmdstan_build=$(qsub build-scripts/qsub-stanc.sh -v LOCATION=$CMDSTAN_LOCATION)
+  echo Building CmdStan:           $job_cmdstan_build
 fi
 
 ## Copy Stan program into one marked by the cmdstan hash
@@ -51,7 +50,7 @@ if [ ! -e $STAN_PROGRAM_FILENAME-$CMDSTAN_HASH ]; then
   else
     job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=$CMDSTAN_LOCATION,STAN_PROGRAM=$STAN_PROGRAM_LOCATION -W depend=afterok:$job_cmdstan_build)
   fi
-  echo Building Stan program: $job_build
+  echo Building Stan program:      $job_build
 fi
 
 
@@ -63,7 +62,8 @@ else
   job_run=$(qsub -v STAN_PROGRAM=$STAN_PROGRAM_LOCATION,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -W depend=afterok:$job_build -t 1-$N build-scripts/qsub-run-array.sh)
 fi
 
-echo Running $STAN_PROGRAM: $job_run
-echo Done.
+echo Running $STAN_PROGRAM:      $job_run
+job_notification=$(qsub build-scripts/notify.sh -W depend=afterok:$job_run)
+echo Notification job:           $job_notification
 
-qsub build-scripts/notify.sh -W depend=afterok:$job_run
+echo Done.
