@@ -8,7 +8,10 @@ if [ $# -lt 2 ]; then
 fi
 
 CMDSTAN_HASH=$1
-STAN_PROGRAM=$2
+shift
+STAN_PROGRAM=$1
+shift
+PROGRAM_ARGUMENTS=$*
 
 if [ ! -e $STAN_PROGRAM ]; then
   echo Failed to run the script:
@@ -49,4 +52,5 @@ fi
 
 
 ## Run the Stan executable
+job_run=$(qsub -v STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -t 1-10 build-scripts/qsub-run-array.sh)
 
