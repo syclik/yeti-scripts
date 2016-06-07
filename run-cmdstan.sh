@@ -1,15 +1,17 @@
 #!/bin/bash
 
-## Expecting two arguments
-if [ $# -lt 2 ]; then
+## Expecting three arguments
+if [ $# -lt 3 ]; then
   echo Usage:
-  echo $0: \<CmdStan commit hash\> \<Stan program path\> \<optional arguments to CmdStan\>
+  echo $0: \<CmdStan commit hash\> \<Stan program path\> \<number of chains\> \<optional arguments to CmdStan\>
   exit 1
 fi
 
 CMDSTAN_HASH=$1
 shift
 STAN_PROGRAM=$1
+shift
+N=$1
 shift
 PROGRAM_ARGUMENTS=$*
 
@@ -57,9 +59,9 @@ fi
 
 ## Run the Stan executable
 if [ -z $job_build ]; then
-  job_run=$(qsub -v STAN_PROGRAM=$STAN_PROGRAM_LOCATION,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -t 1-2 build-scripts/qsub-run-array.sh)
+  job_run=$(qsub -v STAN_PROGRAM=$STAN_PROGRAM_LOCATION,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -t 1-$N build-scripts/qsub-run-array.sh)
 else
-  job_run=$(qsub -v STAN_PROGRAM=$STAN_PROGRAM_LOCATION,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -W depend=afterok:$job_build -t 1-2 build-scripts/qsub-run-array.sh)
+  job_run=$(qsub -v STAN_PROGRAM=$STAN_PROGRAM_LOCATION,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -W depend=afterok:$job_build -t 1-$N build-scripts/qsub-run-array.sh)
 fi
 
 echo Running $STAN_PROGRAM: $job_run
