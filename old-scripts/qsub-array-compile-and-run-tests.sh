@@ -4,7 +4,7 @@
 #PBS -N ${ID}-stan-array-compile-and-run-test
 #PBS -W group_list=yetistats
 #PBS -l nodes=1,walltime=01:00:00,mem=1gb
-#PBS -m n
+#PBS -m a
 #PBS -M dl2604@columbia.edu
 #PBS -V
 

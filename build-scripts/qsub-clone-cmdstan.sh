@@ -7,7 +7,7 @@
 #PBS -W group_list=yetistats
 #PBS -l nodes=1,walltime=00:05:00,mem=1gb
 #PBS -M dl2604@columbia.edu
-#PBS -m a
+#PBS -m abe
 #PBS -V
 
 # Set output and error directories
