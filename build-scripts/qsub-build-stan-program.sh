@@ -18,6 +18,8 @@
 echo '------------------------------------------------------------'
 echo 'Building Stan program: '$STAN_PROGRAM
 
+
+echo $CMDSTAN_LOCATION
 cd $CMDSTAN_LOCATION
 echo currently at: `pwd`
 time make CC=clang++ $STAN_PROGRAM
