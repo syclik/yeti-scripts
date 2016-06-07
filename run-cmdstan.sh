@@ -52,5 +52,11 @@ fi
 
 
 ## Run the Stan executable
-job_run=$(qsub -v STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -t 1-10 build-scripts/qsub-run-array.sh)
+if [ -z $job_build ]; then
+  job_run=$(qsub -v STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -t 1-10 build-scripts/qsub-run-array.sh)
+else
+  job_run=$(qsub -v STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -W depend=afterok:$job_build -t 1-2 build-scripts/qsub-run-array.sh)
+fi
 
+echo Running $(STAN_PROGRAM): $job_run
+echo Done.
