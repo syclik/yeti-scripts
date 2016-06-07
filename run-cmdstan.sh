@@ -58,5 +58,5 @@ else
   job_run=$(qsub -v STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH,PROGRAM_ARGUMENTS="${PROGRAM_ARGUMENTS}" -W depend=afterok:$job_build -t 1-2 build-scripts/qsub-run-array.sh)
 fi
 
-echo Running $(STAN_PROGRAM): $job_run
+echo Running $STAN_PROGRAM: $job_run
 echo Done.

@@ -19,7 +19,7 @@ STAN_PROGRAM_BASENAME=${basename $STAN_PROGRAM}
 
 echo '------------------------------------------------------------'
 echo 'Running'
-time ${STAN_PROGRAM} id=${ID} ${PROGRAM_ARGUMENTS} output file=${basename ${STAN_PROGRAM}}-${ID}.csv
+echo time ${STAN_PROGRAM} id=${ID} ${PROGRAM_ARGUMENTS} output file=${basename ${STAN_PROGRAM}}-${ID}.csv
 
 echo 'Done running stanc'
 
