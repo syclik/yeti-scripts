@@ -18,8 +18,8 @@ echo '------------------------------------------------------------'
 echo 'Cloning CmdStan: '
 
 git clone https://github.com/stan-dev/cmdstan ../cmdstan-$CMDSTAN_HASH
-git checkout $CMDSTAN_HASH
 pushd ../cmdstan-$CMDSTAN_HASH
+git checkout $CMDSTAN_HASH
 git submodule update --init --recursive
 popd
 
