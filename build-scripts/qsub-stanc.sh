@@ -5,7 +5,7 @@
 # Directives
 #PBS -N cmdstan-build
 #PBS -W group_list=yetistats
-#PBS -l nodes=4,walltime=00:03:00,mem=2gb
+#PBS -l nodes=4,walltime=00:03:00,mem=4gb
 #PBS -M dl2604@columbia.edu
 #PBS -m abe
 #PBS -V
