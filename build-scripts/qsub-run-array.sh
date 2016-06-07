@@ -3,10 +3,10 @@
 : {$STAN_PROGRAM=''}
 : {$PROGRAM_ARGUMENTS=''}
 
-##### STAN_PROGRAM_BASENAME=${basename $STAN_PROGRAM}
+STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)
 
 # Directives
-#PBS -N $PBS_ARRAYID
+#PBS -N $STAN_PROGRAM_BASENAME
 #PBS -W group_list=yetistats
 #PBS -l nodes=1,walltime=01:00:00,mem=1gb
 #PBS -M dl2604@columbia.edu
@@ -19,7 +19,7 @@
 
 echo '------------------------------------------------------------'
 echo 'Running'
-echo time $STAN_PROGRAM id=$ID $PROGRAM_ARGUMENTS output file=$(basename $STAN_PROGRAM)-$ID.csv
+echo time $STAN_PROGRAM id=$PBS_ARRAYID $PROGRAM_ARGUMENTS output file=$STAN_PROGRAM_BASENAME-$PBS_ARRAYID.csv
 
-echo 'Done running stanc'
+echo 'Done running'
 
