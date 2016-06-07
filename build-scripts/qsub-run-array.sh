@@ -3,6 +3,8 @@
 : {$STAN_PROGRAM=''}
 : {$PROGRAM_ARGUMENTS=''}
 
+STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)
+
 
 # Directives
 #PBS -N foo
@@ -16,7 +18,6 @@
 #PBS -o localhost:/vega/stats/users/dl2604/
 #PBS -e localhost:/vega/stats/users/dl2604/
 
-STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)
 
 
 echo '------------------------------------------------------------'
