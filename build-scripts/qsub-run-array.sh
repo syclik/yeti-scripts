@@ -1,6 +1,7 @@
 #!/bin/sh
 
 : {$STAN_PROGRAM=''}
+: {$STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)}
 : {$PROGRAM_ARGUMENTS=''}
 
 
@@ -16,11 +17,13 @@
 #PBS -o localhost:/vega/stats/users/dl2604/
 #PBS -e localhost:/vega/stats/users/dl2604/
 
-STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)
+###STAN_PROGRAM_BASENAME=$(basename $STAN_PROGRAM)
 
 
 echo '------------------------------------------------------------'
 echo 'Running'
+echo pwd: `pwd`
+echo $STAN_PROGRAM_BASENAME
 echo time $STAN_PROGRAM id=$PBS_ARRAYID $PROGRAM_ARGUMENTS output file=$STAN_PROGRAM_BASENAME-$PBS_ARRAYID.csv
 
 echo 'Done running'
