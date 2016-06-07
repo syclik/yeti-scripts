@@ -1,11 +1,12 @@
 #!/bin/sh
 
-: {$LOCATION=''}
+: {$CMDSTAN_LOCATION=''}
+: {$STAN_PROGRAM=''}
 
 # Directives
-#PBS -N cmdstan-build
+#PBS -N build-stan-program-$STAN_PROGRAM
 #PBS -W group_list=yetistats
-#PBS -l nodes=4,walltime=00:03:00,mem=1gb
+#PBS -l nodes=1,walltime=00:04:00,mem=1gb
 #PBS -M dl2604@columbia.edu
 #PBS -m abe
 #PBS -V
@@ -15,12 +16,12 @@
 #PBS -e localhost:/vega/stats/users/dl2604/
 
 echo '------------------------------------------------------------'
-echo 'Building stanc'
+echo 'Building Stan program: '$STAN_PROGRAM
 
-cd $LOCATION
+cd $CMDSTAN_LOCATION
 echo currently at: `pwd`
-time make CC=clang++ build
+time make CC=clang++ $STAN_PROGRAM
 
 echo ''
-echo 'Done building stanc'
+echo 'Done building program'
 
