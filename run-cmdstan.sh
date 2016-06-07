@@ -63,7 +63,7 @@ else
 fi
 
 echo Running $STAN_PROGRAM:      $job_run
-job_notification=$(qsub build-scripts/notify.sh -W depend=afterok:$job_run)
+job_notification=$(qsub build-scripts/notify.sh -W depend=afterokarray:$job_run)
 echo Notification job:           $job_notification
 
 echo Done.
