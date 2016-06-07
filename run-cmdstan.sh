@@ -35,9 +35,9 @@ fi
 ## Build the Stan program as an executable
 if [ ! -e $STAN_PROGRAM_FILENAME-$CMDSTAN_HASH ]; then
   if [ -z $job_cmdstan_build ]; then
-    job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH)
+    job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH,STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH)
   else
-    job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH -W depend=afterok:$job_cmdstan_build)
+    job_build=$(qsub build-scripts/qsub-build-stan-program.sh -v CMDSTAN_LOCATION=`pwd`/../cmdstan-$CMDSTAN_HASH,STAN_PROGRAM=`pwd`/$STAN_PROGRAM_FILENAME-$CMDSTAN_HASH -W depend=afterok:$job_cmdstan_build)
   fi
 fi
 
