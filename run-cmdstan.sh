@@ -65,3 +65,5 @@ fi
 
 echo Running $STAN_PROGRAM: $job_run
 echo Done.
+
+qsub build-scripts/notify.sh -W depend=afterok:$job_run
